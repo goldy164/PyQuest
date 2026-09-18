@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyQuest - Level 1: Print Magic</title>
+    <style>
+        body {
+            background-color: #1a1a2e;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 650px;
+            width: 100%;
+            background: #16213e;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            text-align: center;
+            border: 2px solid #0f3460;
+        }
+        .mascot-container img {
+            width: 130px;
+            mix-blend-mode: multiply;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        h1 { color: #e94560; margin-bottom: 5px; }
+        .section-box {
+            background: #0f3460;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 20px 0;
+            text-align: right;
+            border-right: 5px solid #4ecca3;
+        }
+        code {
+            background: #1a1a2e;
+            color: #4ecca3;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        .quiz-option {
+            background: #1a1a2e;
+            border: 2px solid #0f3460;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: right;
+            transition: 0.2s;
+            font-family: monospace;
+        }
+        .quiz-option:hover {
+            border-color: #4ecca3;
+            background: #1f2a48;
+        }
+        textarea {
+            width: 100%;
+            height: 80px;
+            background: #1a1a2e;
+            color: #4ecca3;
+            border: 2px solid #0f3460;
+            border-radius: 10px;
+            padding: 12px;
+            font-size: 16px;
+            font-family: monospace;
+            resize: none;
+            box-sizing: border-box;
+            margin-top: 10px;
+        }
+        button {
+            background-color: #e94560;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #ff6b6b;
+            transform: scale(1.03);
+        }
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- شخصية الثعبان -->
+        <div class="mascot-container">
+            <img src="snake.png" alt="PyQuest Mascot">
+        </div>
+
+        <h1>Level 1: سحر الطباعة 🪄</h1>
+        <p>رحلتنا تبدأ هنا! تعلم كيف تجعل الكمبيوتر يتحدث.</p>
+
+        <!-- 1. الشرح المبسط -->
+        <div class="section-box">
+            <h3>📖 الشرح:</h3>
+            <p>في لغة بايثون، علشان نخلي الشاشة تعرض أي رسالة أو كلام، بنستخدم أمر اسمه <code>print()</code>.</p>
+            <p>تخيل إن كلمة <code>print</code> دي زي مكبر صوت بيخلي الكمبيوتر ينطق الكلام اللي جوه الأقواس وعلامات التنصيص <code>""</code>.</p>
+            <p><strong>مثال:</strong> <code>print("Welcome to PyQuest")</code></p>
+        </div>
+
+        <!-- 2. التطبيق الأول: اختيار من متعدد -->
+        <div class="section-box">
+            <h3>🎯 التطبيق الأول: اختبار الفهم</h3>
+            <p>ما هو الأمر الصحيح لطباعة كلمة <code>"Hello"</code> على الشاشة؟</p>
+            <div class="quiz-option" onclick="checkQuiz(false)">أ) write("Hello")</div>
+            <div class="quiz-option" onclick="checkQuiz(true)">ب) print("Hello")</div>
+            <div class="quiz-option" onclick="checkQuiz(false)">ج) show("Hello")</div>
+            <div id="quizFeedback" class="feedback"></div>
+        </div>
+
+        <!-- 3. التطبيق الثاني: كتابة الكود العملي -->
+        <div class="section-box">
+            <h3>💻 التطبيق الثاني: تحدي الكود الحقيقي</h3>
+            <p>اكتب كود بايثون يطبع جملة <code>"I am a programmer"</code>:</p>
+            <textarea id="userCode" placeholder="اكتب الكود هنا..."></textarea>
+            <br>
+            <button onclick="checkCode()">فحص الكود 🚀</button>
+            <div id="codeFeedback" class="feedback"></div>
+        </div>
+
+    </div>
+
+    <script>
+        // التحقق من التطبيق الأول
+        function checkQuiz(isCorrect) {
+            const fb = document.getElementById('quizFeedback');
+            if (isCorrect) {
+                fb.style.color = "#4ecca3";
+                fb.innerHTML = "✅ إجابة صحيحة! بطل ممتاز!";
+            } else {
+                fb.style.color = "#ff6b6b";
+                fb.innerHTML = "❌ خطأ، فكر مجدداً ما هو أمر الطباعة في بايثون؟";
+            }
+        }
+
+        // التحقق من التطبيق الثاني
+        function checkCode() {
+            const code = document.getElementById('userCode').value.trim();
+            const fb = document.getElementById('codeFeedback');
+
+            const valid1 = 'print("I am a programmer")';
+            const valid2 = "print('I am a programmer')";
+
+            if (code === valid1 || code === valid2) {
+                fb.style.color = "#4ecca3";
+                fb.innerHTML = "🎉 رائع جداً! الكود صحيح 100% وربحت النجوم ⭐!";
+            } else {
+                fb.style.color = "#ff6b6b";
+                fb.innerHTML = "❌ حاول مرة أخرى! تأكد من استخدام print مع الأقواس وعلامات التنصيص.";
+            }
+        }
+    </script>
+
+</body>
+</html>
