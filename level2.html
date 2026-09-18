@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyQuest - Level 2: صندوق البيانات (Variables)</title>
+    <style>
+        :root {
+            --bg: #1a1a2e;
+            --card: #16213e;
+            --blue: #0f3460;
+            --pink: #e94560;
+            --green: #4ecca3;
+            --yellow: #f1c40f;
+            --orange: #e67e22;
+            --blue-light: #3da9fc;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background: radial-gradient(circle at top, #202852 0%, var(--bg) 48%);
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .main-container { max-width: 700px; width: 100%; }
+
+        header {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 20px;
+            border: 2px solid var(--blue);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            animation: slideDown .7s ease both;
+        }
+
+        header h1 { color: var(--blue-light); margin: 0; font-size: 26px; }
+
+        .back-btn {
+            text-decoration: none;
+            background: var(--blue);
+            color: var(--green);
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: transform .2s, box-shadow .2s, background .2s;
+        }
+
+        .back-btn:hover {
+            background: #1f4d83;
+            transform: translateX(4px);
+            box-shadow: 0 0 15px rgba(78, 204, 163, .35);
+        }
+
+        .app-card {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border-right: 5px solid;
+            box-shadow: 0 5px 15px rgba(0,0,0,.3);
+            opacity: 0;
+            animation: fadeUp .65s ease forwards;
+            transition: transform .25s, box-shadow .25s;
+        }
+
+        .app-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(0,0,0,.42);
+        }
+
+        .app-card:nth-of-type(1) { animation-delay: .15s; border-right-color: var(--blue-light); }
+        .app-card:nth-of-type(2) { animation-delay: .3s; border-right-color: var(--green); }
+        .app-card:nth-of-type(3) { animation-delay: .45s; border-right-color: var(--yellow); }
+        .app-card:nth-of-type(4) { animation-delay: .6s; border-right-color: var(--orange); }
+        .app-card:nth-of-type(5) { animation-delay: .75s; border-right-color: var(--pink); }
+        .app-card:nth-of-type(6) { animation-delay: .9s; border-right-color: var(--blue-light); }
+
+        h2 { margin-top: 0; font-size: 22px; }
+        p { line-height: 1.8; }
+
+        code {
+            background: var(--blue);
+            color: var(--green);
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 1.1em;
+            display: inline-block;
+        }
+
+        .input-area {
+            width: 100%;
+            min-height: 55px;
+            background: var(--bg);
+            border: 2px solid var(--blue);
+            color: var(--green);
+            padding: 12px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 16px;
+            resize: vertical;
+            direction: ltr;
+            text-align: left;
+            margin-top: 10px;
+            transition: border-color .2s, box-shadow .2s, transform .2s;
+        }
+
+        .input-area:focus {
+            outline: none;
+            border-color: var(--green);
+            box-shadow: 0 0 0 4px rgba(78,204,163,.15);
+            transform: scale(1.01);
+        }
+
+        .input-area:disabled { opacity: .65; }
+
+        .check-btn {
+            background-color: var(--pink);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background .2s, transform .2s, box-shadow .2s;
+        }
+
+        .check-btn:hover {
+            background-color: #ff6b6b;
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 7px 16px rgba(233,69,96,.3);
+        }
+
+        .check-btn:active { transform: scale(.96); }
+
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .feedback.correct {
+            display: block;
+            background-color: rgba(78,204,163,.2);
+            color: var(--green);
+            border: 1px solid var(--green);
+            animation: popIn .35s ease both;
+        }
+
+        .feedback.incorrect {
+            display: block;
+            background-color: rgba(233,69,96,.2);
+            color: var(--pink);
+            border: 1px solid var(--pink);
+            animation: shake .4s ease both;
+        }
+
+        .choices-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .choice-btn {
+            background: var(--blue);
+            color: white;
+            border: 2px solid var(--blue);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: right;
+            cursor: pointer;
+            font-family: monospace;
+            transition: background .2s, border-color .2s, transform .2s;
+        }
+
+        .choice-btn:hover {
+            background: #1f2a48;
+            border-color: var(--blue-light);
+            transform: translateX(-5px);
+        }
+
+        .choice-btn.selected-choice {
+            background: #1f2a48;
+            border-color: var(--green);
+            animation: popIn .25s ease both;
+        }
+
+        #score-board {
+            position: fixed;
+            z-index: 10;
+            top: 20px;
+            right: 20px;
+            background: var(--card);
+            padding: 10px 20px;
+            border-radius: 15px;
+            border: 2px solid var(--green);
+            font-weight: bold;
+            color: var(--green);
+            font-size: 18px;
+            box-shadow: 0 5px 10px rgba(0,0,0,.3);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        #score-board.score-up { animation: scoreUp .5s ease both; }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(.86); }
+            70% { transform: scale(1.04); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(8px); }
+            50% { transform: translateX(-8px); }
+            75% { transform: translateX(5px); }
+        }
+
+        @keyframes scoreUp {
+            50% { transform: scale(1.18); box-shadow: 0 0 22px rgba(78,204,163,.7); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 12px; }
+            #score-board { position: static; width: fit-content; margin: 0 0 15px auto; }
+            header { align-items: flex-start; flex-direction: column-reverse; }
+            header h1 { font-size: 22px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="score-board">⭐ النقاط: <span id="score">0</span> / 50</div>
+
+    <div class="main-container">
+        <header>
+            <a href="index.html" class="back-btn">← العودة للخريطة</a>
+            <h1>مستوى 2: صندوق البيانات (Variables)</h1>
+        </header>
+
+        <!-- الشرح السريع -->
+        <div class="app-card">
+            <h2>📖 الشرح السريع</h2>
+            <p>المتغير (Variable) يشبه الصندوق الذي تخزن بداخله قيمة معينة لتستخدمها لاحقاً. بنكتب اسم الصندوق على اليسار، علامة يساوي <code>=</code> في المنتصف، والقيمة على اليمين.</p>
+            <p>مثال: <code>score = 100</code> أو <code>name = "أحمد"</code></p>
+        </div>
+
+        <!-- التطبيق 1: سهل جداً (توقع النتيجة) -->
+        <div class="app-card">
+            <h2>التطبيق 1: ماذا يطبع هذا الكود؟ 🤔</h2>
+            <p>انظر للكود التالي:<br>
+            <code>age = 13</code><br>
+            <code>print(age)</code></p>
+            <div class="choices-container">
+                <button class="choice-btn" onclick="checkAnswer(1, false, this)">أ) print(age)</button>
+                <button class="choice-btn" onclick="checkAnswer(1, true, this)">ب) 13</button>
+                <button class="choice-btn" onclick="checkAnswer(1, false, this)">ج) age</button>
+            </div>
+            <div id="feedback-1" class="feedback"></div>
+        </div>
+
+        <!-- التطبيق 2: سهل (تصحيح إنشاء متغير) -->
+        <div class="app-card">
+            <h2>التطبيق 2: أنشئ متغير الاسم 🛠️</h2>
+            <p>اكتب كوداً لإنشاء متغير باسم <code>hero</code> وتخزين القيمة <code>"بطل"</code> بداخله:</p>
+            <textarea id="app-input-2" class="input-area" rows="1" placeholder='hero = "بطل"'></textarea>
+            <button class="check-btn" onclick="checkApp2()">فحص الكود ✅</button>
+            <div id="feedback-2" class="feedback"></div>
+        </div>
+
+        <!-- التطبيق 3: متوسط (تخزين وتغيير) -->
+        <div class="app-card">
+            <h2>التطبيق 3: تخزين لعبة مفضلة 🎮</h2>
+            <p>أنشئ متغيرًا باسم <code>fav_game</code> وضع بداخله اسم لعبتك المفضلة (مثل <code>"Minecraft"</code> أو <code>"Roblox"</code>):</p>
+            <textarea id="app-input-3" class="input-area" rows="1" placeholder='fav_game = "..."'></textarea>
+            <button class="check-btn" onclick="checkApp3()">فحص الكود ✅</button>
+            <div id="feedback-3" class="feedback"></div>
+        </div>
+
+        <!-- التطبيق 4: صعب (حسابات بسيطة داخل المتغيرات) -->
+        <div class="app-card">
+            <h2>التطبيق 4: العمليات الحسابية البسيطة ➕</h2>
+            <p>أنشئ متغيرين <code>x = 5</code> و <code>y = 3</code>، ثم اجمعهم في متغير ثالث باسم <code>total</code>:</p>
+            <textarea id="app-input-4" class="input-area" rows="2" placeholder="x = 5&#10;y = 3&#10;total = x + y"></textarea>
+            <button class="check-btn" onclick="checkApp4()">فحص الكود ✅</button>
+            <div id="feedback-4" class="feedback"></div>
+        </div>
+
+        <!-- التطبيق 5: صعب جداً (تحدي دمج المتغيرات مع النص) -->
+        <div class="app-card">
+            <h2>التطبيق 5: رسالة الترحيب الذكية 🎓</h2>
+            <p>لديك متغير <code>player = "أحمد"</code>. استخدم أمر <code>print</code> لطباعة التحية مع دمج المتغير لتظهر هكذا: <code>مرحباً أحمد</code></p>
+            <textarea id="app-input-5" class="input-area" rows="2" placeholder='player = "أحمد"&#10;print("مرحباً " + player)'></textarea>
+            <button class="check-btn" onclick="checkApp5()">فحص الكود ✅</button>
+            <div id="feedback-5" class="feedback"></div>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        const pointsPerApp = 10;
+        const completed = new Set();
+
+        function updateScore(appNumber) {
+            if (completed.has(appNumber)) return;
+            completed.add(appNumber);
+            score += pointsPerApp;
+            document.getElementById('score').innerText = score;
+            const board = document.getElementById('score-board');
+            board.classList.remove('score-up');
+            void board.offsetWidth;
+            board.classList.add('score-up');
+        }
+
+        function showFeedback(appNumber, isCorrect, message) {
+            const fb = document.getElementById(`feedback-${appNumber}`);
+            fb.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+            fb.innerHTML = message;
+        }
+
+        function checkAnswer(appNum, isCorrect, selectedButton) {
+            const fb = document.getElementById(`feedback-${appNum}`);
+            const buttons = selectedButton.parentElement.querySelectorAll('.choice-btn');
+            buttons.forEach(btn => btn.classList.remove('selected-choice'));
+            selectedButton.classList.add('selected-choice');
+
+            if (isCorrect) {
+                showFeedback(appNum, true, '✅ أحسنت! الإجابة صحيحة.');
+                updateScore(appNum);
+                buttons.forEach(btn => btn.disabled = true);
+            } else {
+                showFeedback(appNum, false, '❌ خطأ، حاول مجدداً.');
+            }
+        }
+
+        function cleanCode(str) {
+            return str.split('\n').map(line => line.trim()).filter(line => line.length > 0).join('\n');
+        }
+
+        function checkApp2() {
+            const input = document.getElementById('app-input-2');
+            const code = cleanCode(input.value);
+            const valid = ['hero="بطل"', 'hero = "بطل"', "hero='بطل'", "hero='بطل'"];
+            const isCorrect = valid.some(v => code.includes(v.replace(/\s/g, '')));
+            
+            showFeedback(2, isCorrect, isCorrect ? '🎉 ممتاز! تم إنشاء المتغير بنجاح.' : '❌ تأكد من كتابة المتغير بالشكل الصحيح مثل: hero = "بطل"');
+            if (isCorrect && !completed.has(2)) {
+                updateScore(2);
+                input.disabled = true;
+                input.nextElementSibling.disabled = true;
+            }
+        }
+
+        function checkApp3() {
+            const input = document.getElementById('app-input-3');
+            const code = cleanCode(input.value);
+            const isCorrect = code.startsWith('fav_game=') || code.startsWith('fav_game =');
+            
+            showFeedback(3, isCorrect, isCorrect ? '🎮 رائع! أتقنت إنشاء متغير الألعاب.' : '❌ تأكد من تسمية المتغير fav_game واستخدام علامات التنصيص.');
+            if (isCorrect && !completed.has(3)) {
+                updateScore(3);
+                input.disabled = true;
+                input.nextElementSibling.disabled = true;
+            }
+        }
+
+        function checkApp4() {
+            const input = document.getElementById('app-input-4');
+            const code = cleanCode(input.value);
+            const isCorrect = code.includes('x=') && code.includes('y=') && code.includes('total=');
+            
+            showFeedback(4, isCorrect, isCorrect ? '➕ عبقري! لقد قمت بجمع المتغيرات بنجاح.' : '❌ تأكد من تعريف x و y ووضع ناتج جمعهما في total.');
+            if (isCorrect && !completed.has(4)) {
+                updateScore(4);
+                input.disabled = true;
+                input.nextElementSibling.disabled = true;
+            }
+        }
+
+        function checkApp5() {
+            const input = document.getElementById('app-input-5');
+            const code = cleanCode(input.value);
+            const isCorrect = code.includes('print') && code.includes('player');
+            
+            showFeedback(5, isCorrect, isCorrect ? '🏆 كفو! أنهيت المستوى الثاني واكتسحت الصناديق البرمجية!' : '❌ تأكد من استخدام أمر print لطباعة النص بجانب المتغير player.');
+            if (isCorrect && !completed.has(5)) {
+                updateScore(5);
+                input.disabled = true;
+                input.nextElementSibling.disabled = true;
+            }
+        }
+    </script>
+</body>
+</html>
