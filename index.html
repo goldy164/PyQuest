@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyQuest - رحلة المبتدئين</title>
+    <style>
+        body {
+            background-color: #1a1a2e;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .main-container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+        /* الهيدر الترحيبي */
+        header {
+            background: #16213e;
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid #0f3460;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        header img {
+            width: 100px;
+            position: absolute;
+            left: 20px;
+            top: -50px; /* الثعبان بيطل من فوق */
+            mix-blend-mode: multiply;
+        }
+        h1 { color: #e94560; margin: 0 0 10px 0; font-size: 40px;}
+        .subtitle { color: #4ecca3; font-size: 18px; max-width: 500px; margin: 0 auto;}
+
+        /* قسم المرحلة */
+        .stage-banner {
+            background: linear-gradient(90deg, #e94560, #ff6b6b);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        /* خريطة المستويات (Skill Tree Grid) */
+        .level-map {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            padding: 10px;
+        }
+        .level-btn {
+            background: #16213e;
+            padding: 30px 20px;
+            border-radius: 15px;
+            border: 3px solid #0f3460;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        /* تأثير ليفل مفتوح */
+        .level-btn:hover {
+            transform: translateY(-5px);
+            border-color: #4ecca3;
+            background: #1f2a48;
+        }
+        /* رقم الليفل */
+        .lvl-num {
+            font-size: 48px;
+            font-weight: bold;
+            color: #4ecca3;
+            margin-bottom: 5px;
+        }
+        /* عنوان الليفل */
+        .lvl-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        /* أيقونة قفل لليفل المقفول */
+        .lvl-lock {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: #777;
+        }
+        /* ستايل الليفل المقفول (مظلم وغير قابل للضغط) */
+        .level-btn.locked {
+            background: #101825;
+            border-color: #2a3a5a;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        .level-btn.locked .lvl-num,
+        .level-btn.locked .lvl-title {
+            color: #777;
+        }
+        .level-btn.locked:hover {
+            transform: none;
+            background: #101825;
+            border-color: #2a3a5a;
+        }
+
+        /* شريط التقدم العام */
+        .progress-container {
+            margin-top: 30px;
+            background: #16213e;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #0f3460;
+        }
+        .progress-bar {
+            height: 15px;
+            background: #0f3460;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .progress-fill {
+            height: 100%;
+            background: #4ecca3;
+            width: 15%; /* مثال: الطالب مخلص 15% (ليفل واحد من ستة تقريباً) */
+            transition: width 0.5s;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <!-- الهيدر الترحيبي -->
+        <header>
+            <img src="snake.png" alt="PyQuest Mascot"> <!-- حط هنا اسم صورة الثعبان المفرغة -->
+            <h1>مرحباً بك في PyQuest! 👋</h1>
+            <p class="subtitle">هل أنت مستعد لبدء مغامرتك البرمجية الأولى؟</p>
+            <p style="color: #ff6b6b; font-weight: bold;">👤 اسم المستخدم: <span id="displayName">[اسم الطالب]</span></p>
+        </header>
+
+        <!-- بانر المرحلة الحالية -->
+        <div class="stage-banner">
+            🚀 المرحلة الأولى: أساسيات بايثون للمبتدئين (Level 1 - 6)
+        </div>
+
+        <!-- وصف المرحلة -->
+        <div style="background: #0f3460; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: right; border-right: 5px solid #e94560;">
+            <h3 style="color: #e94560; margin: 0 0 5px 0;">عن هذه المرحلة:</h3>
+            <p style="margin: 0;">في هذه المغامرة، ستتعلم كيف تتحدث مع الكمبيوتر وتجعله ينفذ أوامرك. سنبدأ من الصفر حتى نصل إلى بناء أول برنامج تفاعلي لك. هذه الرحلة مكونة من 6 مستويات ممتعة.</p>
+        </div>
+
+        <!-- خريطة المستويات (Skill Tree) -->
+        <div class="level-map">
+            <!-- Level 1 (مفتوح) -->
+            <a href="/level/1" class="level-btn">
+                <div class="lvl-num">1</div>
+                <div class="lvl-title">سحر الطباعة Print</div>
+            </a>
+
+            <!-- Level 2 (مقفول - كمثال) -->
+            <div class="level-btn locked">
+                <span class="lvl-lock">🔒</span>
+                <div class="lvl-num">2</div>
+                <div class="lvl-title">صندوق الأسرار Variables</div>
+            </div>
+
+             <!-- Level 3 (مقفول) -->
+             <div class="level-btn locked">
+                <span class="lvl-lock">🔒</span>
+                <div class="lvl-num">3</div>
+                <div class="lvl-title">لغة الأرقام Numbers</div>
+            </div>
+
+            <!-- Level 4 (مقفول) -->
+            <div class="level-btn locked">
+                <span class="lvl-lock">🔒</span>
+                <div class="lvl-num">4</div>
+                <div class="lvl-title">العقل الذكي Conditions</div>
+            </div>
+
+            <!-- Level 5 (مقفول) -->
+            <div class="level-btn locked">
+                <span class="lvl-lock">🔒</span>
+                <div class="lvl-num">5</div>
+                <div class="lvl-title">الحلقة الدوارة Loops</div>
+            </div>
+
+            <!-- Level 6 (مقفول) -->
+            <div class="level-btn locked">
+                <span class="lvl-lock">🔒</span>
+                <div class="lvl-num">6</div>
+                <div class="lvl-title">مصنع الأوامر Functions</div>
+            </div>
+        </div>
+
+        <!-- شريط التقدم العام -->
+        <div class="progress-container">
+            <div>التقدم العام في المرحلة</div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 16.6%;"></div> <!-- 16.6% = 1/6 -->
+            </div>
+            <div style="margin-top: 5px; font-size: 14px; color: #4ecca3;">لقد أتممت 1 من 6 مستويات</div>
+        </div>
+
+    </div>
+
+    <!-- جافا سكريبت بسيطة لعرض اسم المستخدم (اختياري، هيتشال لما نربطه بالفلاسك) -->
+    <script>
+        // ده كود مؤقت لحد ما نجيب الاسم من السيرفر
+        const urlParams = new URLSearchParams(window.location.search);
+        const user = urlParams.get('username');
+        if(user) {
+            document.getElementById('displayName').innerText = user;
+        } else {
+            document.getElementById('displayName').innerText = "زائر";
+        }
+    </script>
+
+</body>
+</html>
