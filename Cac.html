@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyQuest - إنشاء حساب جديد</title>
+    <style>
+        :root {
+            --bg: #1a1a2e;
+            --card: #16213e;
+            --blue: #0f3460;
+            --pink: #e94560;
+            --green: #4ecca3;
+            --blue-light: #3da9fc;
+        }
+        * { box-sizing: border-box; }
+        body {
+            background: radial-gradient(circle at top, #202852 0%, var(--bg) 48%);
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .auth-container {
+            background: var(--card);
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid var(--blue);
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 25px rgba(0,0,0,.4);
+        }
+        h1 { color: var(--green); text-align: center; margin-top: 0; font-size: 28px; }
+        p.subtitle { text-align: center; color: #a0aec0; margin-bottom: 25px; font-size: 14px; }
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; margin-bottom: 5px; color: var(--blue-light); font-weight: bold; }
+        .input-group input {
+            width: 100%;
+            background: var(--bg);
+            border: 2px solid var(--blue);
+            color: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .input-group input:focus { outline: none; border-color: var(--green); }
+        .btn {
+            width: 100%;
+            background: var(--green);
+            color: #1a1a2e;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background .2s, transform .2s;
+        }
+        .btn:hover { background: #3db892; transform: translateY(-2px); }
+        .link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: var(--blue-light);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <h1>إنشاء حساب 🛡️</h1>
+        <p class="subtitle">انضم لمغامرة PyQuest وابدأ التحدي</p>
+
+        <div class="input-group">
+            <label>اختر اسم المستخدم</label>
+            <input type="text" id="reg-user" placeholder="ادخل اسمك...">
+        </div>
+        <div class="input-group">
+            <label>كلمة المرور</label>
+            <input type="password" id="reg-pass" placeholder="••••••••">
+        </div>
+
+        <button class="btn" onclick="register()">تسجيل الحساب ✨</button>
+        <a href="index.html" class="link">العودة لتسجيل الدخول</a>
+    </div>
+
+    <script>
+        async function register() {
+            const username = document.getElementById('reg-user').value.trim();
+            const password = document.getElementById('reg-pass').value.trim();
+
+            if (!username || !password) {
+                alert("الرجاء إدخال اسم المستخدم وكلمة المرور!");
+                return;
+            }
+
+            try {
+                // الاتصال بسيرفرك على بايثون أني واير لإنشاء الحساب وملف الـ db الخاص بك
+                const response = await fetch('https://VigitoSon.pythonanywhere.com/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert("🎉 تم إنشاء الحساب وحفظ ملفك على السيرفر بنجاح!");
+                    window.location.href = "index.html"; // العودة لصفحة تسجيل الدخول
+                } else {
+                    alert(data.message);
+                }
+            } catch (error) {
+                alert("خطأ في الاتصال بالسيرفر!");
+            }
+        }
+    </script>
+</body>
+</html>
