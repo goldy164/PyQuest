@@ -3,176 +3,336 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PyQuest - Level 1: Print Magic</title>
+    <title>PyQuest - Level 1: أساسيات Print</title>
     <style>
+        :root {
+            --bg: #1a1a2e;
+            --card: #16213e;
+            --blue: #0f3460;
+            --pink: #e94560;
+            --green: #4ecca3;
+            --text-muted: #b8c1d1;
+        }
+
+        * { box-sizing: border-box; }
+
         body {
-            background-color: #1a1a2e;
-            color: #ffffff;
+            background-color: var(--bg);
+            color: #fff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            min-height: 100vh;
         }
-        .container {
-            max-width: 650px;
+
+        .main-container {
+            max-width: 700px;
             width: 100%;
-            background: #16213e;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            text-align: center;
-            border: 2px solid #0f3460;
+            margin: 0 auto;
+            padding-top: 70px;
         }
-        .mascot-container img {
-            width: 130px;
-            mix-blend-mode: multiply;
-            animation: bounce 2s infinite;
+
+        #score-board {
+            position: fixed;
+            z-index: 10;
+            top: 20px;
+            right: 20px;
+            background: var(--card);
+            padding: 10px 20px;
+            border-radius: 15px;
+            border: 2px solid var(--green);
+            color: var(--green);
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, .3);
         }
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-        h1 { color: #e94560; margin-bottom: 5px; }
-        .section-box {
-            background: #0f3460;
+
+        header {
+            background: var(--card);
             padding: 20px;
-            border-radius: 12px;
-            margin: 20px 0;
-            text-align: right;
-            border-right: 5px solid #4ecca3;
+            border: 2px solid var(--blue);
+            border-radius: 20px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
         }
+
+        header h1 { color: var(--pink); margin: 0; font-size: 28px; }
+
+        .back-btn {
+            text-decoration: none;
+            white-space: nowrap;
+            background: var(--blue);
+            color: var(--green);
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .app-card {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border-right: 5px solid;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, .3);
+        }
+
+        .card-1 { border-right-color: var(--green); }
+        .card-2 { border-right-color: #3da9fc; }
+        .card-3 { border-right-color: #f1c40f; }
+        .card-4 { border-right-color: #e67e22; }
+        .card-5 { border-right-color: var(--pink); }
+
+        h2 { margin-top: 0; font-size: 22px; }
+        h3 { color: var(--green); font-size: 18px; }
+        p { line-height: 1.8; }
+
         code {
-            background: #1a1a2e;
-            color: #4ecca3;
-            padding: 2px 6px;
+            background: var(--blue);
+            color: var(--green);
+            padding: 3px 6px;
             border-radius: 4px;
             font-family: monospace;
+            font-size: 1.05em;
+            direction: ltr;
+            display: inline-block;
         }
-        .quiz-option {
-            background: #1a1a2e;
-            border: 2px solid #0f3460;
-            padding: 12px;
-            margin: 8px 0;
-            border-radius: 8px;
-            cursor: pointer;
-            text-align: right;
-            transition: 0.2s;
-            font-family: monospace;
-        }
-        .quiz-option:hover {
-            border-color: #4ecca3;
-            background: #1f2a48;
-        }
-        textarea {
+
+        .input-area {
             width: 100%;
-            height: 80px;
-            background: #1a1a2e;
-            color: #4ecca3;
-            border: 2px solid #0f3460;
-            border-radius: 10px;
+            min-height: 55px;
+            background: var(--bg);
+            border: 2px solid var(--blue);
+            color: var(--green);
             padding: 12px;
-            font-size: 16px;
+            border-radius: 8px;
             font-family: monospace;
-            resize: none;
-            box-sizing: border-box;
+            font-size: 16px;
+            resize: vertical;
+            direction: ltr;
+            text-align: left;
             margin-top: 10px;
         }
-        button {
-            background-color: #e94560;
-            color: white;
-            border: none;
+
+        .input-area:focus { outline: none; border-color: var(--green); }
+        .input-area:disabled { opacity: .65; }
+
+        .check-btn {
+            background-color: var(--pink);
+            color: #fff;
+            border: 0;
             padding: 10px 25px;
             font-size: 16px;
             font-weight: bold;
             border-radius: 8px;
             cursor: pointer;
             margin-top: 10px;
-            transition: 0.3s;
+            transition: .2s;
         }
-        button:hover {
-            background-color: #ff6b6b;
-            transform: scale(1.03);
-        }
+
+        .check-btn:hover { background-color: #ff6b6b; transform: scale(1.03); }
+        .check-btn:disabled { cursor: not-allowed; opacity: .6; transform: none; }
+
         .feedback {
+            display: none;
             margin-top: 10px;
+            padding: 10px;
+            border-radius: 8px;
             font-weight: bold;
-            font-size: 16px;
+        }
+
+        .feedback.correct {
+            display: block;
+            color: var(--green);
+            background: rgba(78, 204, 163, .2);
+            border: 1px solid var(--green);
+        }
+
+        .feedback.incorrect {
+            display: block;
+            color: var(--pink);
+            background: rgba(233, 69, 96, .2);
+            border: 1px solid var(--pink);
+        }
+
+        .choices-container { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+
+        .choice-btn {
+            background: var(--blue);
+            color: #fff;
+            border: 2px solid var(--blue);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: right;
+            cursor: pointer;
+            font-family: monospace;
+            font-size: 15px;
+            transition: .2s;
+        }
+
+        .choice-btn:hover, .choice-btn.selected-choice { background: #1f2a48; border-color: var(--green); }
+        .choice-btn:disabled { cursor: not-allowed; opacity: .75; }
+        .hint { color: var(--text-muted); font-size: .9em; }
+
+        @media (max-width: 600px) {
+            body { padding: 12px; }
+            #score-board { position: static; width: fit-content; margin: 0 0 15px auto; }
+            .main-container { padding-top: 0; }
+            header { align-items: flex-start; flex-direction: column-reverse; }
+            header h1 { font-size: 23px; }
         }
     </style>
 </head>
 <body>
+    <div id="score-board">⭐ النقاط: <span id="score">0</span> / 50</div>
 
-    <div class="container">
-        <!-- شخصية الثعبان -->
-        <div class="mascot-container">
-            <img src="snake.png" alt="PyQuest Mascot">
-        </div>
+    <main class="main-container">
+        <header>
+            <a href="index.html" class="back-btn">← العودة للخريطة</a>
+            <h1>مستوى 1: سحر الطباعة Print</h1>
+        </header>
 
-        <h1>Level 1: سحر الطباعة 🪄</h1>
-        <p>رحلتنا تبدأ هنا! تعلم كيف تجعل الكمبيوتر يتحدث.</p>
+        <section class="app-card card-1">
+            <h2>📖 الشرح السريع</h2>
+            <p>أمر <code>print()</code> هو طريقتك لجعل الكمبيوتر يكتب شيئاً على الشاشة. كل ما تضعه داخل الأقواس وعلامات التنصيص سيتم طباعته.</p>
+            <p>مثال: <code>print("مرحباً بكم في PyQuest")</code></p>
+        </section>
 
-        <!-- 1. الشرح المبسط -->
-        <div class="section-box">
-            <h3>📖 الشرح:</h3>
-            <p>في لغة بايثون، علشان نخلي الشاشة تعرض أي رسالة أو كلام، بنستخدم أمر اسمه <code>print()</code>.</p>
-            <p>تخيل إن كلمة <code>print</code> دي زي مكبر صوت بيخلي الكمبيوتر ينطق الكلام اللي جوه الأقواس وعلامات التنصيص <code>""</code>.</p>
-            <p><strong>مثال:</strong> <code>print("Welcome to PyQuest")</code></p>
-        </div>
+        <section class="app-card card-1">
+            <h2>التطبيق 1: ماذا سيطبع الكمبيوتر؟ 🤔</h2>
+            <p>انظر إلى الكود التالي وتوقع النتيجة:</p>
+            <code>print("أنا أتعلم بايثون")</code>
+            <div class="choices-container">
+                <button class="choice-btn" onclick="checkAnswer(1, false, this)">أ) print("أنا أتعلم بايثون")</button>
+                <button class="choice-btn" onclick="checkAnswer(1, true, this)">ب) أنا أتعلم بايثون</button>
+                <button class="choice-btn" onclick="checkAnswer(1, false, this)">ج) لا شيء، الكود فيه خطأ</button>
+            </div>
+            <div id="feedback-1" class="feedback"></div>
+        </section>
 
-        <!-- 2. التطبيق الأول: اختيار من متعدد -->
-        <div class="section-box">
-            <h3>🎯 التطبيق الأول: اختبار الفهم</h3>
-            <p>ما هو الأمر الصحيح لطباعة كلمة <code>"Hello"</code> على الشاشة؟</p>
-            <div class="quiz-option" onclick="checkQuiz(false)">أ) write("Hello")</div>
-            <div class="quiz-option" onclick="checkQuiz(true)">ب) print("Hello")</div>
-            <div class="quiz-option" onclick="checkQuiz(false)">ج) show("Hello")</div>
-            <div id="quizFeedback" class="feedback"></div>
-        </div>
+        <section class="app-card card-2">
+            <h2>التطبيق 2: صحح الخطأ الإملائي 🛠️</h2>
+            <p>هناك خطأ في الكود. أصلحه ليطبع كلمة <code>"مرحبا"</code>:</p>
+            <code>pirnt("مرحبا")</code>
+            <textarea id="app-input-2" class="input-area" rows="1" placeholder="اكتب الكود الصحيح هنا..."></textarea>
+            <button class="check-btn" onclick="checkApp2()">فحص الكود ✅</button>
+            <div id="feedback-2" class="feedback"></div>
+        </section>
 
-        <!-- 3. التطبيق الثاني: كتابة الكود العملي -->
-        <div class="section-box">
-            <h3>💻 التطبيق الثاني: تحدي الكود الحقيقي</h3>
-            <p>اكتب كود بايثون يطبع جملة <code>"I am a programmer"</code>:</p>
-            <textarea id="userCode" placeholder="اكتب الكود هنا..."></textarea>
-            <br>
-            <button onclick="checkCode()">فحص الكود 🚀</button>
-            <div id="codeFeedback" class="feedback"></div>
-        </div>
+        <section class="app-card card-3">
+            <h2>التطبيق 3: تحدي علامات التنصيص 🗣️</h2>
+            <p>اكتب الكود اللازم لطباعة الجملة: <code>Programming is fun</code></p>
+            <p class="hint">تلميح: استخدم علامات التنصيص المزدوجة <code>""</code>.</p>
+            <textarea id="app-input-3" class="input-area" rows="1" placeholder="print(...)"></textarea>
+            <button class="check-btn" onclick="checkApp3()">فحص الكود ✅</button>
+            <div id="feedback-3" class="feedback"></div>
+        </section>
 
-    </div>
+        <section class="app-card card-4">
+            <h2>التطبيق 4: دمج الكلمات 🔗</h2>
+            <p>اكتب كوداً يطبع اسمك الأول واسم العائلة في سطر واحد باستخدام أمر <code>print</code> واحد.</p>
+            <p class="hint">مثال: لو اسمك أحمد علي، النتيجة تكون <code>أحمد علي</code> (بينهما مسافة).</p>
+            <textarea id="app-input-4" class="input-area" rows="1" placeholder='print("الاسم الأول" + " " + "اسم العائلة")'></textarea>
+            <button class="check-btn" onclick="checkApp4()">فحص الكود ✅</button>
+            <div id="feedback-4" class="feedback"></div>
+        </section>
+
+        <section class="app-card card-5">
+            <h2>التطبيق 5: المدير الصغير 🎓</h2>
+            <p>اكتب كوداً يطبع جملة واحدة فقط: <code>عمري هو 10 سنوات</code></p>
+            <p class="hint">يمكنك كتابة الرقم داخل علامات التنصيص؛ فالنتيجة المطلوبة هي النص نفسه.</p>
+            <textarea id="app-input-5" class="input-area" rows="1" placeholder="print(...)"></textarea>
+            <button class="check-btn" onclick="checkApp5()">فحص الكود ✅</button>
+            <div id="feedback-5" class="feedback"></div>
+        </section>
+    </main>
 
     <script>
-        // التحقق من التطبيق الأول
-        function checkQuiz(isCorrect) {
-            const fb = document.getElementById('quizFeedback');
+        let score = 0;
+        const completed = new Set();
+
+        function updateScore(appNumber) {
+            if (completed.has(appNumber)) return false;
+            completed.add(appNumber);
+            score += 10;
+            document.getElementById('score').textContent = score;
+            return true;
+        }
+
+        function showFeedback(appNumber, isCorrect, message) {
+            const feedback = document.getElementById(`feedback-${appNumber}`);
+            feedback.className = `feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+            feedback.textContent = message;
+        }
+
+        function checkAnswer(appNumber, isCorrect, selectedButton) {
+            const buttons = selectedButton.parentElement.querySelectorAll('.choice-btn');
+            buttons.forEach(button => {
+                button.classList.remove('selected-choice');
+                button.disabled = isCorrect;
+            });
+            selectedButton.classList.add('selected-choice');
+
             if (isCorrect) {
-                fb.style.color = "#4ecca3";
-                fb.innerHTML = "✅ إجابة صحيحة! بطل ممتاز!";
+                updateScore(appNumber);
+                showFeedback(appNumber, true, '✅ أحسنت! هذه هي الإجابة الصحيحة وحصلت على 10 نقاط.');
             } else {
-                fb.style.color = "#ff6b6b";
-                fb.innerHTML = "❌ خطأ، فكر مجدداً ما هو أمر الطباعة في بايثون؟";
+                buttons.forEach(button => button.disabled = false);
+                showFeedback(appNumber, false, '❌ خطأ، حاول مجدداً. تذكّر أن print تعرض النص بدون علامات التنصيص.');
             }
         }
 
-        // التحقق من التطبيق الثاني
-        function checkCode() {
-            const code = document.getElementById('userCode').value.trim();
-            const fb = document.getElementById('codeFeedback');
+        function checkTextAnswer(appNumber, validAnswers, successMessage, errorMessage) {
+            const input = document.getElementById(`app-input-${appNumber}`);
+            const code = input.value.trim();
+            const isCorrect = validAnswers.includes(code);
+            showFeedback(appNumber, isCorrect, isCorrect ? successMessage : errorMessage);
 
-            const valid1 = 'print("I am a programmer")';
-            const valid2 = "print('I am a programmer')";
-
-            if (code === valid1 || code === valid2) {
-                fb.style.color = "#4ecca3";
-                fb.innerHTML = "🎉 رائع جداً! الكود صحيح 100% وربحت النجوم ⭐!";
-            } else {
-                fb.style.color = "#ff6b6b";
-                fb.innerHTML = "❌ حاول مرة أخرى! تأكد من استخدام print مع الأقواس وعلامات التنصيص.";
+            if (isCorrect && updateScore(appNumber)) {
+                input.disabled = true;
+                input.nextElementSibling.disabled = true;
             }
+        }
+
+        function checkApp2() {
+            checkTextAnswer(2,
+                ['print("مرحبا")', "print('مرحبا')"],
+                '🎉 ممتاز! قمت بتصحيح الأمر وحصلت على 10 نقاط.',
+                '❌ لم يتم تصحيح الكود. تأكد من كتابة print() بشكل صحيح.'
+            );
+        }
+
+        function checkApp3() {
+            checkTextAnswer(3,
+                ['print("Programming is fun")', "print('Programming is fun')"],
+                '✅ صحيح! أنت مبرمج حقيقي وحصلت على 10 نقاط.',
+                '❌ تأكد من كتابة الجملة تماماً داخل الأقواس وعلامات التنصيص.'
+            );
+        }
+
+        function checkApp4() {
+            const input = document.getElementById('app-input-4');
+            const code = input.value.trim();
+            const isCorrect = /^print\s*\(.+\s*(\+|,)\s*.+\)$/.test(code);
+            showFeedback(4, isCorrect,
+                isCorrect ? '🚀 رائع! لقد أتقنت دمج النصوص وحصلت على 10 نقاط.' : '❌ استخدم print مع نصين وبينهما + أو فاصلة، مثل print("أحمد" + " " + "علي").'
+            );
+            if (isCorrect && updateScore(4)) {
+                input.disabled = true;
+                input.nextElementSibling.disabled = true;
+            }
+        }
+
+        function checkApp5() {
+            checkTextAnswer(5,
+                ['print("عمري هو 10 سنوات")', "print('عمري هو 10 سنوات')"],
+                '🏆 كفو! أنهيت المستوى الأول بنجاح وحصلت على 10 نقاط.',
+                '❌ تأكد من كتابة الجملة كاملة وبشكل صحيح.'
+            );
         }
     </script>
-
 </body>
 </html>
