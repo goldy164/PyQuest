@@ -198,14 +198,13 @@
                 return;
             }
 
-            document.getElementById('welcome-msg').innerHTML = `أهلاً بك يا بطل البرمجة <span style="color: #f1c40f; font-weight: bold;">${activeUser}</span> في عالم المغامرات!`;
+            document.getElementById('welcome-msg').innerHTML = `أهلاً بك يا بطل البرمجة <span style="color: #f1c40f; font-weight: bold;">${activeUser}</span> في عالم المغامرات البرمجية!`;
 
             try {
                 const response = await fetch(`https://VigitoSon.pythonanywhere.com/get_progress?username=${activeUser}`);
                 const data = await response.json();
 
                 if (data.success) {
-                    // الـ completed_levels ممكن يكون 0 (عند البداية)، أو 1 (خلص الأول)، أو 2 (خلص الثاني)
                     const currentLevel = data.completed_levels !== undefined ? data.completed_levels : 0;
                     updateMapState(currentLevel);
                 }
@@ -221,12 +220,13 @@
             const progressText = document.getElementById('progress-text');
             const levelStatus = document.getElementById('user-level-status');
 
+            // لو المستوى 0 (أول ما يعمل حساب جديد)
             if (level === 0) {
-                // لسه في البداية (Zero)
-                levelStatus.innerText = "المستوى الحالي: Zero (لم تبدأ بعد)";
+                levelStatus.innerText = "المستوى الحالي: Zero";
                 progressFill.style.width = '0%';
                 progressText.innerText = 'أكمل المستوى الأول لفتح المستوى الثاني!';
                 
+                // قفل ليفل 2
                 lvl2.classList.add('locked');
                 lock2.style.display = 'block';
                 lvl2.onclick = function(e) {
@@ -234,22 +234,13 @@
                     alert("🔒 هذا المستوى مقفول! يجب عليك إتمام المستوى الأول أولاً.");
                 };
             } 
-            else if (level === 1) {
-                // خلص ليفل 1 وبقي ليفل 1 (يقدر يدخل 2)
-                levelStatus.innerText = "المستوى الحالي: Level 1";
-                progressFill.style.width = '50%';
-                progressText.innerText = 'أتممت المستوى الأول بنجاح! انتقل للمستوى الثاني.';
+            else if (level >= 1) {
+                // لو خلص ليفل 1 أو أكثر
+                levelStatus.innerText = `المستوى الحالي: Level ${level}`;
+                progressFill.style.width = level === 1 ? '50%' : '100%';
+                progressText.innerText = level === 1 ? 'أتممت المستوى الأول! انتقل للمستوى الثاني.' : 'أتممت جميع المستويات بنجاح!';
 
-                lvl2.classList.remove('locked');
-                lock2.style.display = 'none';
-                lvl2.onclick = null; // يفتح عادي
-            } 
-            else if (level >= 2) {
-                // خلص ليفل 2 وبقي ليفل 2
-                levelStatus.innerText = "المستوى الحالي: Level 2";
-                progressFill.style.width = '100%';
-                progressText.innerText = 'أتممت مستويات المرحلة الحالية ببطولة!';
-
+                // فتح ليفل 2
                 lvl2.classList.remove('locked');
                 lock2.style.display = 'none';
                 lvl2.onclick = null;
