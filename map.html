@@ -1,7 +1,278 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>PyQuest - خريطة المستويات</title><style>:root{--bg:#1a1a2e;--card:#16213e;--blue:#0f3460;--pink:#e94560;--green:#4ecca3}*{box-sizing:border-box}body{background:radial-gradient(circle at top,#202852 0%,var(--bg) 48%);color:#fff;font-family:Segoe UI,Tahoma,sans-serif;margin:0;padding:20px;min-height:100vh;display:flex;justify-content:center}.main-container{max-width:800px;width:100%;text-align:center}header,.progress-container{background:var(--card);padding:25px;border-radius:20px;border:2px solid var(--blue);margin-bottom:25px;position:relative}.logout-btn{position:absolute;top:20px;left:20px;background:var(--pink);color:#fff;border:0;padding:8px 15px;border-radius:8px;cursor:pointer}h1{color:var(--pink)}.subtitle{color:var(--green)}.stage-banner{background:linear-gradient(90deg,var(--pink),#ff6b6b);padding:12px;border-radius:12px;font-weight:bold;margin-bottom:20px}.level-map{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;padding:10px}.level-btn{background:var(--card);padding:25px 15px;border-radius:15px;border:3px solid var(--blue);text-decoration:none;color:#fff;display:flex;flex-direction:column;align-items:center;box-shadow:0 5px 15px #0005}.level-btn:hover{border-color:var(--green);transform:translateY(-3px)}.level-btn.locked{background:#101825;border-color:#212e46;cursor:not-allowed;opacity:.6}.level-btn.locked:hover{transform:none}.lvl-num{font-size:36px;font-weight:bold;color:var(--green)}.lvl-title{font-weight:bold}.lvl-lock{position:absolute;margin-left:180px}.progress-bar{height:12px;background:var(--blue);border-radius:10px;overflow:hidden;margin-top:8px}.progress-fill{height:100%;background:var(--green);transition:width .5s}</style></head><body><div class="main-container"><header><button class="logout-btn" onclick="logout()">خروج</button><h1>رحلة بايثون الممتعة 🐍</h1><p class="subtitle" id="welcome-msg">جاري تحميل بيانات اللاعب...</p></header><div class="stage-banner">⭐ المرحلة الأولى: أساسيات البرمجة</div><div class="level-map"><a href="level1.html" class="level-btn" id="lvl-1"><div class="lvl-num">1</div><div class="lvl-title">الأساسيات (Print)</div></a><a href="level2.html" class="level-btn locked" id="lvl-2"><span class="lvl-lock" id="lock-2">🔒</span><div class="lvl-num">2</div><div class="lvl-title">المتغيرات (Variables)</div></a></div><div class="progress-container"><div id="user-level-status">المستوى الحالي: 0</div><div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div><div id="progress-text">أكمل المستوى الأول لبدء التقدم!</div></div></div><script>
-const API='https://VigitoSon.pythonanywhere.com';
-window.addEventListener('load',async()=>{const user=localStorage.getItem('pyquest_active_user');if(!user){location.href='index.html';return}document.getElementById('welcome-msg').textContent=`أهلاً بك يا بطل البرمجة ${user} في عالم المغامرات البرمجية!`;try{const response=await fetch(`${API}/get_progress?username=${encodeURIComponent(user)}`);const data=await response.json();if(data.success)updateMapState(Number(data.completed_levels??0));else updateMapState(0)}catch(error){updateMapState(0);document.getElementById('progress-text').textContent='تعذر تحميل التقدم من السيرفر.'}});
-function updateMapState(level){const card=document.getElementById('lvl-2'),lock=document.getElementById('lock-2');const fill=document.getElementById('progress-fill'),text=document.getElementById('progress-text'),status=document.getElementById('user-level-status');if(level<1){status.textContent='المستوى الحالي: 0';fill.style.width='0%';text.textContent='أكمل المستوى الأول لفتح المستوى الثاني!';card.classList.add('locked');lock.style.display='block';card.onclick=e=>{e.preventDefault();alert('🔒 يجب عليك إتمام المستوى الأول أولاً.')}}else{status.textContent=`المستوى الحالي: ${level}`;fill.style.width=level>=2?'100%':'50%';text.textContent=level>=2?'أتممت جميع المستويات بنجاح!':'أتممت المستوى الأول! انتقل للمستوى الثاني.';card.classList.remove('locked');lock.style.display='none';card.onclick=null}}
-function logout(){localStorage.removeItem('pyquest_active_user');location.href='index.html'}
-</script></body></html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyQuest - خريطة المستويات</title>
+    <style>
+        :root {
+            --bg: #1a1a2e;
+            --card: #16213e;
+            --blue: #0f3460;
+            --pink: #e94560;
+            --green: #4ecca3;
+            --blue-light: #3da9fc;
+        }
+        * { box-sizing: border-box; }
+        body {
+            background: radial-gradient(circle at top, #202852 0%, var(--bg) 48%);
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .main-container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+        header {
+            background: var(--card);
+            padding: 25px;
+            border-radius: 20px;
+            border: 2px solid var(--blue);
+            margin-bottom: 25px;
+            position: relative;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        }
+        h1 { color: var(--pink); margin: 0 0 8px 0; font-size: 32px; }
+        .subtitle { color: var(--green); font-size: 16px; margin: 0; }
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--pink);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        .logout-btn:hover { background: #ff6b6b; }
+
+        .stage-banner {
+            background: linear-gradient(90deg, var(--pink), #ff6b6b);
+            color: white;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+        }
+
+        .level-map {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            padding: 10px;
+        }
+        .level-btn {
+            background: var(--card);
+            padding: 25px 15px;
+            border-radius: 15px;
+            border: 3px solid var(--blue);
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .level-btn:hover {
+            transform: translateY(-5px);
+            border-color: var(--green);
+            background: #1f2a48;
+        }
+        .lvl-num {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--green);
+            margin-bottom: 5px;
+        }
+        .lvl-title {
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .lvl-lock {
+            position: absolute;
+            top: 12px;
+            left: 15px;
+            font-size: 20px;
+        }
+        .level-btn.locked {
+            background: #101825;
+            border-color: #212e46;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        .level-btn.locked .lvl-num,
+        .level-btn.locked .lvl-title {
+            color: #666;
+        }
+        .level-btn.locked:hover {
+            transform: none;
+            background: #101825;
+            border-color: #212e46;
+        }
+
+        .progress-container {
+            margin-top: 25px;
+            background: var(--card);
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid var(--blue);
+        }
+        .progress-bar {
+            height: 12px;
+            background: var(--blue);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--green);
+            width: 0%;
+            transition: width 0.5s;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <header>
+            <button class="logout-btn" onclick="logout()">خروج</button>
+            <h1>رحلة بايثون الممتعة 🐍</h1>
+            <p class="subtitle" id="welcome-msg">جاري تحميل بيانات اللاعب...</p>
+        </header>
+
+        <div class="stage-banner">
+            ⭐ المرحلة الأولى: أساسيات البرمجة
+        </div>
+
+        <div class="level-map" id="levels-container">
+            <a href="level1.html" class="level-btn" id="lvl-1">
+                <div class="lvl-num">1</div>
+                <div class="lvl-title">الأساسيات (Print)</div>
+            </a>
+
+            <a href="level2.html" class="level-btn locked" id="lvl-2">
+                <span class="lvl-lock" id="lock-2">🔒</span>
+                <div class="lvl-num">2</div>
+                <div class="lvl-title">المتغيرات (Variables)</div>
+            </a>
+
+            <a href="level3.html" class="level-btn locked" id="lvl-3">
+                <span class="lvl-lock" id="lock-3">🔒</span>
+                <div class="lvl-num">3</div>
+                <div class="lvl-title">القرارات (If / Else)</div>
+            </a>
+        </div>
+
+        <div class="progress-container">
+            <div style="font-weight: bold; font-size: 14px;" id="user-level-status">المستوى الحالي: 0</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%;"></div>
+            </div>
+            <div style="margin-top: 6px; font-size: 13px; color: var(--green);" id="progress-text">أكمل المستوى الأول لبدء التقدم!</div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = async function() {
+            const activeUser = localStorage.getItem('pyquest_active_user');
+            if (!activeUser) {
+                window.location.href = "index.html";
+                return;
+            }
+
+            document.getElementById('welcome-msg').innerHTML = `أهلاً بك يا بطل البرمجة <span style="color: #f1c40f; font-weight: bold;">${activeUser}</span> في عالم المغامرات البرمجية!`;
+
+            try {
+                const response = await fetch(`https://VigitoSon.pythonanywhere.com/get_progress?username=${encodeURIComponent(activeUser)}`);
+                const data = await response.json();
+                if (data.success) {
+                    const currentLevel = data.completed_levels !== undefined ? Number(data.completed_levels) : 0;
+                    updateMapState(currentLevel);
+                }
+            } catch (error) {
+                console.log('خطأ في جلب التقدم من السيرفر.');
+            }
+        };
+
+        function updateMapState(level) {
+            const lvl2 = document.getElementById('lvl-2');
+            const lvl3 = document.getElementById('lvl-3');
+            const lock2 = document.getElementById('lock-2');
+            const lock3 = document.getElementById('lock-3');
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+            const levelStatus = document.getElementById('user-level-status');
+
+            if (level === 0) {
+                levelStatus.innerText = 'المستوى الحالي: 0';
+                progressFill.style.width = '0%';
+                progressText.innerText = 'أكمل المستوى الأول لفتح المستوى الثاني!';
+
+                lvl2.classList.add('locked');
+                lvl3.classList.add('locked');
+                lock2.style.display = 'block';
+                lock3.style.display = 'block';
+
+                lvl2.onclick = function(e) {
+                    e.preventDefault();
+                    alert('🔒 هذا المستوى مقفول! يجب عليك إتمام المستوى الأول أولاً.');
+                };
+
+                lvl3.onclick = function(e) {
+                    e.preventDefault();
+                    alert('🔒 هذا المستوى مقفول! يجب عليك إتمام المستوى الثاني أولاً.');
+                };
+            } else if (level === 1) {
+                levelStatus.innerText = 'المستوى الحالي: 1';
+                progressFill.style.width = '50%';
+                progressText.innerText = 'أتممت المستوى الأول! انتقل للمستوى الثاني.';
+
+                lvl2.classList.remove('locked');
+                lvl3.classList.add('locked');
+                lock2.style.display = 'none';
+                lock3.style.display = 'block';
+
+                lvl2.onclick = null;
+                lvl3.onclick = function(e) {
+                    e.preventDefault();
+                    alert('🔒 هذا المستوى مقفول! يجب عليك إتمام المستوى الثاني أولاً.');
+                };
+            } else if (level >= 2) {
+                levelStatus.innerText = 'المستوى الحالي: ' + level;
+                progressFill.style.width = '100%';
+                progressText.innerText = 'أتممت المستويات بنجاح! يمكنك الدخول إلى المستوى الثالث.';
+
+                lvl2.classList.remove('locked');
+                lvl3.classList.remove('locked');
+                lock2.style.display = 'none';
+                lock3.style.display = 'none';
+
+                lvl2.onclick = null;
+                lvl3.onclick = null;
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('pyquest_active_user');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
