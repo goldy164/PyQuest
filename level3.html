@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PyQuest - Level 3: القرارات</title>
+<style>
+:root{--bg:#1a1a2e;--card:#16213e;--blue:#0f3460;--pink:#e94560;--green:#4ecca3}
+*{box-sizing:border-box}body{background:radial-gradient(circle at top,#202852 0%,var(--bg) 48%);color:#fff;font-family:'Segoe UI',Tahoma,sans-serif;margin:0;padding:20px;min-height:100vh}.main-container{max-width:700px;width:100%;margin:auto}.app-card,header{background:var(--card);padding:20px;border-radius:15px;margin-bottom:20px;border:2px solid var(--blue)}h1{color:var(--green)}code{background:var(--blue);color:var(--green);padding:3px 6px;border-radius:4px}.input-area{width:100%;min-height:55px;background:var(--bg);color:var(--green);border:2px solid var(--blue);padding:12px;border-radius:8px;direction:ltr;text-align:left;font-family:monospace}.check-btn,.complete-btn{background:var(--pink);color:#fff;border:0;padding:10px 18px;border-radius:8px;cursor:pointer;font-weight:bold;margin:5px}.feedback{display:none;margin-top:10px;padding:10px;border-radius:8px}.feedback.correct{display:block;color:var(--green);background:#1f4d45}.feedback.incorrect{display:block;color:#ff6b6b;background:#4d202c}.complete-btn{background:var(--green);color:var(--bg);display:block;margin:25px auto}a{color:var(--green)}.lesson-box{background:#101825;border-right:4px solid var(--green);padding:15px 18px;border-radius:12px;line-height:1.9;margin-top:12px}.lesson-box h3{color:var(--green);margin-top:0}.lesson-box ul{padding-right:22px}.example{background:#0b1220;border-radius:8px;padding:10px;direction:ltr;text-align:left;margin:10px 0;color:#fff;white-space:pre-wrap}
+</style>
+</head>
+<body>
+<div class="main-container">
+<header><a href="map.html">← العودة للخريطة</a><h1>مستوى 3: القرارات (If / Else)</h1><div>⭐ النقاط: <span id="score">0</span> / 50</div></header>
+<div class="app-card"><h2>📖 شرح الشروط</h2><p>تستخدم الشروط لجعل البرنامج يتخذ قراراً حسب البيانات.</p><div class="lesson-box"><h3>كيف تعمل if و else؟</h3><p>إذا كان الشرط صحيحاً، ينفذ Python الكود الموجود بعد <code>if</code>. وإذا كان الشرط غير صحيح، ينفذ الكود الموجود بعد <code>else</code>.</p><div class="example">age = 20
+if age >= 18:
+    print("أنت بالغ")
+else:
+    print("أنت قاصر")</div><p><code>if</code> تعني إذا، و<code>else</code> تعني وإلا. المسافة قبل <code>print</code> مهمة لأنها توضح الكود الموجود داخل الشرط.</p><h3>علامات المقارنة</h3><div class="example">x == 5   # يساوي
+x > 3    # أكبر من
+x < 3    # أصغر من
+x >= 3   # أكبر من أو يساوي
+x <= 3   # أصغر من أو يساوي
+x != 5   # لا يساوي</div><p>بعد فهم الشرح، حل التطبيقات الخمسة. كل إجابة صحيحة تمنحك 10 نقاط.</p></div></div>
+<div class="app-card"><h2>التطبيق 1: هل الشخص بالغ؟</h2><p>اكتب شرطاً يفحص إذا كان العمر أكبر من أو يساوي 18، ويطبع <code>أنت بالغ</code> أو <code>أنت قاصر</code>.</p><textarea id="app-input-1" class="input-area" placeholder='age = 20&#10;if age >= 18:&#10;    print("أنت بالغ")&#10;else:&#10;    print("أنت قاصر")'></textarea><button class="check-btn" onclick="checkApp1()">فحص الكود ✅</button><div id="feedback-1" class="feedback"></div></div>
+<div class="app-card"><h2>التطبيق 2: هل اللاعب فاز؟</h2><p>افحص إذا كانت النتيجة أكبر من أو تساوي 80، واطبع <code>فزت!</code> أو <code>حاول مرة أخرى</code>.</p><textarea id="app-input-2" class="input-area" placeholder='score = 90&#10;if score >= 80:&#10;    print("فزت!")&#10;else:&#10;    print("حاول مرة أخرى")'></textarea><button class="check-btn" onclick="checkApp2()">فحص الكود ✅</button><div id="feedback-2" class="feedback"></div></div>
+<div class="app-card"><h2>التطبيق 3: هل الرقم موجب؟</h2><p>افحص إذا كان الرقم أكبر من صفر، واطبع <code>موجب</code> أو <code>سالب أو صفر</code>.</p><textarea id="app-input-3" class="input-area" placeholder='num = -5&#10;if num > 0:&#10;    print("موجب")&#10;else:&#10;    print("سالب أو صفر")'></textarea><button class="check-btn" onclick="checkApp3()">فحص الكود ✅</button><div id="feedback-3" class="feedback"></div></div>
+<div class="app-card"><h2>التطبيق 4: هل اللاعب هو أحمد؟</h2><p>افحص إذا كانت قيمة <code>player</code> تساوي <code>"أحمد"</code>، واطبع <code>مرحباً بطلنا</code> أو <code>من أنت؟</code>.</p><textarea id="app-input-4" class="input-area" placeholder='player = "أحمد"&#10;if player == "أحمد":&#10;    print("مرحباً بطلنا")&#10;else:&#10;    print("من أنت؟")'></textarea><button class="check-btn" onclick="checkApp4()">فحص الكود ✅</button><div id="feedback-4" class="feedback"></div></div>
+<div class="app-card"><h2>التطبيق 5: هل الطالب ناجح؟</h2><p>افحص إذا كانت الدرجة أكبر من أو تساوي 60، واطبع <code>ناجح</code> أو <code>راسب</code>.</p><textarea id="app-input-5" class="input-area" placeholder='grade = 75&#10;if grade >= 60:&#10;    print("ناجح")&#10;else:&#10;    print("راسب")'></textarea><button class="check-btn" onclick="checkApp5()">فحص الكود ✅</button><div id="feedback-5" class="feedback"></div></div>
+<button class="complete-btn" onclick="completeLevel3()">إنهاء المستوى الثالث 🚀</button>
+</div>
+<script>
+let score=0;const completed=new Set();
+function updateScore(n){if(completed.has(n))return;completed.add(n);score+=10;document.getElementById('score').textContent=score}
+function showFeedback(n,ok,msg){const fb=document.getElementById(`feedback-${n}`);fb.className=`feedback ${ok?'correct':'incorrect'}`;fb.textContent=msg}
+function cleanCode(s){return s.split('\n').map(x=>x.trim()).filter(Boolean).join('\n')}
+function finish(n,ok,good,bad){const input=document.getElementById(`app-input-${n}`);showFeedback(n,ok,ok?good:bad);if(ok&&!completed.has(n)){updateScore(n);input.disabled=true;input.nextElementSibling.disabled=true}}
+function checkApp1(){const c=cleanCode(document.getElementById('app-input-1').value);finish(1,/if\s+age\s*>=\s*18\s*:/.test(c)&&c.includes('أنت بالغ')&&c.includes('أنت قاصر'),'✅ ممتاز! الشرط صحيح.','❌ استخدم if مع age >= 18 و else.')}
+function checkApp2(){const c=cleanCode(document.getElementById('app-input-2').value);finish(2,/if\s+score\s*>=\s*80\s*:/.test(c)&&c.includes('فزت!')&&c.includes('حاول مرة أخرى'),'✅ رائع! الشرط يعمل.','❌ استخدم if مع score >= 80.')}
+function checkApp3(){const c=cleanCode(document.getElementById('app-input-3').value);finish(3,/if\s+num\s*>\s*0\s*:/.test(c)&&c.includes('موجب')&&c.includes('سالب أو صفر'),'✅ صحيح!','❌ افحص هل num أكبر من صفر.')}
+function checkApp4(){const c=cleanCode(document.getElementById('app-input-4').value);finish(4,/if\s+player\s*==\s*["']أحمد["']\s*:/.test(c)&&c.includes('مرحباً بطلنا')&&c.includes('من أنت؟'),'✅ رائع!','❌ استخدم player == "أحمد".')}
+function checkApp5(){const c=cleanCode(document.getElementById('app-input-5').value);finish(5,/if\s+grade\s*>=\s*60\s*:/.test(c)&&c.includes('ناجح')&&c.includes('راسب'),'🏆 ممتاز!','❌ قارن grade مع 60.')}
+async function completeLevel3(){if(completed.size<5){alert('يجب حل جميع التطبيقات الخمسة أولاً!');return}const username=localStorage.getItem('pyquest_active_user');if(!username){location.href='index.html';return}try{const r=await fetch('https://VigitoSon.pythonanywhere.com/update_progress',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username,completed_levels:3})});const d=await r.json();if(d.success)location.href='map.html';else alert(d.message||'حدث خطأ أثناء حفظ التقدم.')}catch(e){alert('خطأ في الاتصال بالسيرفر!')}}
+window.addEventListener('load',async()=>{const u=localStorage.getItem('pyquest_active_user');if(!u){location.href='index.html';return}try{const r=await fetch(`https://VigitoSon.pythonanywhere.com/get_progress?username=${encodeURIComponent(u)}`);const d=await r.json();if(!d.success||Number(d.completed_levels??0)<2){alert('🔒 يجب إنهاء المستوى الثاني أولاً.');location.href='map.html'}}catch(e){alert('تعذر التحقق من تقدمك.');location.href='map.html'}});
+</script>
+</body>
+</html>
