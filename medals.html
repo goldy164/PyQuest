@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyQuest - الميداليات</title>
+    <style>
+        :root { --bg:#1a1a2e; --card:#16213e; --blue:#0f3460; --pink:#e94560; --green:#4ecca3; --gold:#f1c40f; }
+        * { box-sizing: border-box; }
+        body { background:radial-gradient(circle at top,#202852 0%,var(--bg) 48%); color:#fff; font-family:'Segoe UI',Tahoma,sans-serif; margin:0; padding:20px; min-height:100vh; }
+        .container { max-width:800px; margin:auto; text-align:center; }
+        header, .medals-box { background:var(--card); border:2px solid var(--blue); border-radius:20px; padding:25px; box-shadow:0 8px 20px rgba(0,0,0,.35); }
+        header { position:relative; margin-bottom:20px; }
+        h1 { color:var(--pink); margin:0 0 8px; }
+        .back { position:absolute; top:20px; right:20px; color:#fff; background:var(--pink); text-decoration:none; padding:8px 14px; border-radius:8px; font-weight:bold; }
+        .level { color:var(--green); margin:0; }
+        .medals { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; }
+        .medal { background:#111a2c; border:3px solid var(--blue); border-radius:16px; padding:22px 15px; cursor:pointer; transition:.25s; }
+        .medal:hover { transform:translateY(-4px); border-color:var(--green); }
+        .medal.selected { border-color:var(--gold); box-shadow:0 0 18px rgba(241,196,15,.35); }
+        .medal.locked { opacity:.5; cursor:not-allowed; filter:grayscale(1); }
+        .icon { font-size:55px; }
+        .name { font-size:22px; font-weight:bold; margin:8px 0; color:var(--gold); }
+        .description { color:#d7def5; font-size:14px; }
+        .state { color:var(--green); font-weight:bold; margin-top:10px; }
+        .notice { margin-top:20px; color:var(--green); font-weight:bold; min-height:24px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a class="back" href="map.html">العودة للخريطة</a>
+            <h1>🏆 الميداليات</h1>
+            <p class="level">المستوى الحالي: <strong id="level">0</strong></p>
+        </header>
+
+        <section class="medals-box">
+            <div class="medals" id="medals"></div>
+            <div class="notice" id="notice"></div>
+        </section>
+    </div>
+
+    <script>
+        const API_URL = 'https://VigitoSon.pythonanywhere.com';
+
+        const medalDefinitions = [
+            {
+                id: 'beginner',
+                name: 'Beginner',
+                icon: '🏅',
+                requiredLevel: 0,
+                description: 'الميدالية الأساسية التي تبدأ بها رحلتك.'
+            },
+            {
+                id: 'semi-pro',
+                name: 'Semi-Pro',
+                icon: '🥈',
+                requiredLevel: 3,
+                description: 'تُفتح بعد إكمال المستويات الثلاثة.'
+            }
+        ];
+
+        function renderMedals(level) {
+            document.getElementById('level').textContent = level;
+
+            const selectedId = localStorage.getItem('pyquest_selected_medal') || 'beginner';
+
+            document.getElementById('medals').innerHTML = medalDefinitions.map(medal => {
+                const owned = level >= medal.requiredLevel;
+                const selected = owned && selectedId === medal.id;
+
+                return `
+                    <article class="medal ${owned ? '' : 'locked'} ${selected ? 'selected' : ''}" data-id="${medal.id}">
+                        <div class="icon">${owned ? medal.icon : '🔒'}</div>
+                        <div class="name">${medal.name}</div>
+                        <div class="description">${medal.description}</div>
+                        <div class="state">
+                            ${owned
+                                ? (selected ? '✅ الميدالية المختارة' : 'اضغط للاختيار')
+                                : `تُفتح عند Level ${medal.requiredLevel}`}
+                        </div>
+                    </article>
+                `;
+            }).join('');
+
+            document.querySelectorAll('.medal:not(.locked)').forEach(card => {
+                card.addEventListener('click', () => {
+                    localStorage.setItem('pyquest_selected_medal', card.dataset.id);
+                    document.getElementById('notice').textContent = 'تم اختيار الميدالية، وستظهر في الخريطة.';
+                    renderMedals(level);
+                });
+            });
+        }
+
+        async function loadMedals() {
+            const activeUser = localStorage.getItem('pyquest_active_user');
+
+            if (!activeUser) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            try {
+                const response = await fetch(
+                    `${API_URL}/get_progress?username=${encodeURIComponent(activeUser)}`
+                );
+                const data = await response.json();
+                const level = data.success ? Math.max(0, Number(data.completed_levels) || 0) : 0;
+                renderMedals(level);
+            } catch (error) {
+                renderMedals(0);
+                document.getElementById('notice').textContent = 'تعذر تحميل التقدم من السيرفر.';
+            }
+        }
+
+        window.onload = loadMedals;
+    </script>
+</body>
+</html>
