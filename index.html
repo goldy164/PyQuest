@@ -90,33 +90,38 @@
     </div>
 
     <script>
+        // إذا كان المستخدم سجّل الدخول من قبل ولم يضغط «خروج»، ادخله مباشرةً.
+        const activeUser = localStorage.getItem('pyquest_active_user');
+        if (activeUser) {
+            window.location.replace('map.html');
+        }
+
         async function login() {
             const username = document.getElementById('login-user').value.trim();
             const password = document.getElementById('login-pass').value.trim();
 
             if (!username || !password) {
-                alert("الرجاء ملء جميع الحقول!");
+                alert('الرجاء ملء جميع الحقول!');
                 return;
             }
 
             try {
-                // تم وضع رابط سيرفرك الحقيقي هنا بنجاح
                 const response = await fetch('https://VigitoSon.pythonanywhere.com/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username, password })
                 });
                 const data = await response.json();
-                
+
                 if (data.success) {
-                    // حفظ اسم المستخدم محلياً للتعرف عليه في خريطة المستويات map.html
+                    // يظل الحساب معروفًا في الزيارات القادمة حتى يضغط المستخدم «خروج».
                     localStorage.setItem('pyquest_active_user', data.username);
-                    window.location.href = "map.html"; // الانتقال لخريطة المستويات
+                    window.location.replace('map.html');
                 } else {
-                    alert(data.message);
+                    alert(data.message || 'بيانات الدخول غير صحيحة.');
                 }
             } catch (error) {
-                alert("خطأ في الاتصال بالسيرفر!");
+                alert('خطأ في الاتصال بالسيرفر!');
             }
         }
     </script>
