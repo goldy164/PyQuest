@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyQuest - شرح الدروس</title>
+    <style>
+        :root { --bg:#1a1a2e; --card:#16213e; --blue:#0f3460; --pink:#e94560; --green:#4ecca3; --gold:#f1c40f; }
+        * { box-sizing:border-box; }
+        body { background:radial-gradient(circle at top,#202852 0%,var(--bg) 48%); color:#fff; font-family:'Segoe UI',Tahoma,sans-serif; margin:0; padding:20px; min-height:100vh; }
+        .container { max-width:900px; width:100%; margin:auto; }
+        header { background:var(--card); border:2px solid var(--blue); border-radius:20px; padding:25px; text-align:center; position:relative; box-shadow:0 8px 20px rgba(0,0,0,.35); margin-bottom:20px; }
+        h1 { color:var(--pink); margin:0 0 8px; }
+        .subtitle { color:var(--green); margin:0; }
+        .back { position:absolute; top:20px; right:20px; color:#fff; background:var(--pink); text-decoration:none; padding:8px 14px; border-radius:8px; font-weight:bold; }
+        .lesson { background:var(--card); border:2px solid var(--blue); border-radius:18px; padding:22px; margin-bottom:18px; box-shadow:0 6px 16px rgba(0,0,0,.25); }
+        .lesson h2 { color:var(--gold); margin-top:0; }
+        .lesson h3 { color:var(--green); margin-bottom:8px; }
+        .lesson p { line-height:1.9; color:#e4e8f5; }
+        pre { direction:ltr; text-align:left; background:#0d1424; border:1px solid var(--blue); border-radius:10px; padding:15px; overflow:auto; color:#f8f8f2; line-height:1.6; }
+        code { font-family:Consolas,monospace; }
+        .note { border-right:4px solid var(--gold); background:#202844; padding:12px 15px; border-radius:8px; color:#fff; }
+        .optional { color:var(--green); font-weight:bold; text-align:center; margin-top:20px; }
+        ul { line-height:2; color:#e4e8f5; }
+    </style>
+</head>
+<body>
+    <main class="container">
+        <header>
+            <a class="back" href="map.html">العودة للخريطة</a>
+            <h1>📚 شرح الدروس</h1>
+            <p class="subtitle">شرح تفصيلي للمستويات الثلاثة — القراءة اختيارية وليست شرطًا لفتح المستوى.</p>
+        </header>
+
+        <section class="lesson">
+            <h2>Level 1: الأساسيات و Print</h2>
+            <h3>ما هو بايثون؟</h3>
+            <p>بايثون لغة برمجة سهلة القراءة. نكتب فيها أوامر، وينفذ الكمبيوتر هذه الأوامر بالترتيب.</p>
+            <h3>الأمر print</h3>
+            <p>نستخدم <code>print()</code> لعرض نص أو رقم على الشاشة. النص يوضع بين علامات اقتباس.</p>
+            <pre><code>print("مرحباً يا بايثون")
+print(10)
+print(2 + 3)</code></pre>
+            <div class="note">تذكّر: الأقواس جزء من الأمر، والنص يحتاج إلى علامات اقتباس.</div>
+        </section>
+
+        <section class="lesson">
+            <h2>Level 2: المتغيرات Variables</h2>
+            <h3>ما هو المتغير؟</h3>
+            <p>المتغير اسم نستخدمه لحفظ قيمة، مثل اسم اللاعب أو عمره أو عدد النقاط. علامة <code>=</code> تعني تخزين القيمة داخل المتغير.</p>
+            <pre><code>name = "Ahmed"
+score = 10
+print(name)
+print(score)</code></pre>
+            <h3>تغيير القيمة</h3>
+            <p>يمكن تغيير قيمة المتغير في أي وقت، وستصبح القيمة الجديدة هي التي يستخدمها البرنامج.</p>
+            <pre><code>score = 10
+score = score + 5
+print(score)  # 15</code></pre>
+            <div class="note">تذكّر: اسم المتغير لا يوضع بين علامات اقتباس عند استخدامه داخل <code>print</code>.</div>
+        </section>
+
+        <section class="lesson">
+            <h2>Level 3: القرارات If / Else</h2>
+            <h3>فكرة الشرط</h3>
+            <p>نستخدم <code>if</code> عندما نريد من البرنامج اتخاذ قرار. إذا كان الشرط صحيحًا ينفذ البرنامج الأوامر الموجودة تحته.</p>
+            <pre><code>score = 10
+
+if score >= 10:
+    print("ممتاز")</code></pre>
+            <h3>الاختيار بين حالتين</h3>
+            <p>نستخدم <code>else</code> عندما نريد تنفيذ أمر آخر إذا كان الشرط غير صحيح.</p>
+            <pre><code>age = 12
+
+if age >= 18:
+    print("مسموح")
+else:
+    print("غير مسموح")</code></pre>
+            <ul>
+                <li><code>==</code> للمقارنة بين قيمتين.</li>
+                <li><code>&gt;</code> أكبر من، و<code>&lt;</code> أصغر من.</li>
+                <li>السطر داخل الشرط يجب أن يكون مزاحًا للداخل بمسافة أو أربع مسافات.</li>
+            </ul>
+        </section>
+
+        <p class="optional">✅ هذا الشرح للمراجعة فقط، ولا تحتاج إلى قراءته لفتح المستويات أو لعبها.</p>
+    </main>
+</body>
+</html>
