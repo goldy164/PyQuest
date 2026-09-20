@@ -5,50 +5,189 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PyQuest - خريطة المستويات</title>
     <style>
-        :root { --bg:#1a1a2e; --card:#16213e; --blue:#0f3460; --pink:#e94560; --green:#4ecca3; --gold:#f1c40f; }
-        * { box-sizing:border-box; }
+        :root {
+            --bg: #1a1a2e;
+            --card: #16213e;
+            --blue: #0f3460;
+            --pink: #e94560;
+            --green: #4ecca3;
+            --gold: #f1c40f;
+        }
+
+        * { box-sizing: border-box; }
+
         body {
             background: radial-gradient(circle at top, #202852 0%, var(--bg) 48%);
-            color:#fff; font-family:'Segoe UI',Tahoma,sans-serif; margin:0; padding:20px;
-            display:flex; flex-direction:column; align-items:center; min-height:100vh;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
         }
-        .main-container { max-width:800px; width:100%; text-align:center; }
+
+        .main-container {
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
         header {
-            background: var(--card); padding:25px; border-radius:20px; border:2px solid var(--blue);
-            margin-bottom:25px; position:relative; box-shadow:0 8px 20px rgba(0,0,0,.4);
+            background: var(--card);
+            padding: 25px;
+            border-radius: 20px;
+            border: 2px solid var(--blue);
+            margin-bottom: 25px;
+            position: relative;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
         }
-        h1 { color:var(--pink); margin:0 0 8px; font-size:32px; }
-        .subtitle { color:var(--green); font-size:16px; margin:0; }
+
+        h1 {
+            color: var(--pink);
+            margin: 0 0 8px 0;
+            font-size: 32px;
+        }
+
+        .subtitle {
+            color: var(--green);
+            font-size: 16px;
+            margin: 0;
+        }
+
         .logout-btn {
-            position:absolute; top:20px; left:20px; background:var(--pink); color:#fff; border:0;
-            padding:8px 15px; border-radius:8px; cursor:pointer; font-weight:bold;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: var(--pink);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
         }
+
+        .logout-btn:hover {
+            background: #ff6b6b;
+        }
+
         .user-badge {
-            background: linear-gradient(90deg, var(--gold), #e67e22); color:#241b00;
-            padding:12px 20px; border-radius:12px; margin:0 auto 20px; width:fit-content;
-            min-width:220px; font-size:18px; font-weight:bold; box-shadow:0 4px 15px rgba(241,196,15,.35);
+            background: linear-gradient(90deg, var(--gold), #e67e22);
+            color: #241b00;
+            padding: 12px 20px;
+            border-radius: 12px;
+            margin: 0 auto 20px;
+            width: fit-content;
+            min-width: 220px;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(241,196,15,0.35);
         }
+
         .stage-banner {
-            background:linear-gradient(90deg,var(--pink),#ff6b6b); color:#fff; padding:12px;
-            border-radius:12px; font-weight:bold; font-size:18px; margin-bottom:20px;
-            box-shadow:0 4px 15px rgba(233,69,96,.4);
+            background: linear-gradient(90deg, var(--pink), #ff6b6b);
+            color: white;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(233,69,96,0.4);
         }
-        .level-map { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:15px; padding:10px; }
+
+        .level-map {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            padding: 10px;
+        }
+
         .level-btn {
-            background:var(--card); padding:25px 15px; border-radius:15px; border:3px solid var(--blue);
-            cursor:pointer; transition:.3s; text-decoration:none; color:#fff; display:flex; flex-direction:column;
-            align-items:center; justify-content:center; position:relative; box-shadow:0 5px 15px rgba(0,0,0,.3);
+            background: var(--card);
+            padding: 25px 15px;
+            border-radius: 15px;
+            border: 3px solid var(--blue);
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-        .level-btn:hover { transform:translateY(-5px); border-color:var(--green); background:#1f2a48; }
-        .lvl-num { font-size:36px; font-weight:bold; color:var(--green); margin-bottom:5px; }
-        .lvl-title { font-size:16px; font-weight:bold; text-align:center; }
-        .lvl-lock { position:absolute; top:12px; left:15px; font-size:20px; }
-        .level-btn.locked { background:#101825; border-color:#212e46; cursor:not-allowed; opacity:.6; }
-        .level-btn.locked .lvl-num,.level-btn.locked .lvl-title { color:#666; }
-        .level-btn.locked:hover { transform:none; background:#101825; border-color:#212e46; }
-        .progress-container { margin-top:25px; background:var(--card); padding:15px; border-radius:12px; border:2px solid var(--blue); }
-        .progress-bar { height:12px; background:var(--blue); border-radius:10px; overflow:hidden; margin-top:8px; }
-        .progress-fill { height:100%; background:var(--green); width:0%; transition:width .5s; }
+
+        .level-btn:hover {
+            transform: translateY(-5px);
+            border-color: var(--green);
+            background: #1f2a48;
+        }
+
+        .lvl-num {
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--green);
+            margin-bottom: 5px;
+        }
+
+        .lvl-title {
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .lvl-lock {
+            position: absolute;
+            top: 12px;
+            left: 15px;
+            font-size: 20px;
+        }
+
+        .level-btn.locked {
+            background: #101825;
+            border-color: #212e46;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .level-btn.locked .lvl-num,
+        .level-btn.locked .lvl-title {
+            color: #666;
+        }
+
+        .level-btn.locked:hover {
+            transform: none;
+            background: #101825;
+            border-color: #212e46;
+        }
+
+        .progress-container {
+            margin-top: 25px;
+            background: var(--card);
+            padding: 15px;
+            border-radius: 12px;
+            border: 2px solid var(--blue);
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: var(--blue);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--green);
+            width: 0%;
+            transition: width 0.5s;
+        }
     </style>
 </head>
 <body>
@@ -63,18 +202,35 @@
             🏅 الرتبة: <strong id="user-title">Beginner</strong>
         </div>
 
-        <div class="stage-banner">⭐ المرحلة الأولى: أساسيات البرمجة</div>
+        <div class="stage-banner">
+            ⭐ المرحلة الأولى: أساسيات البرمجة
+        </div>
 
         <div class="level-map" id="levels-container">
-            <a href="level1.html" class="level-btn" id="lvl-1"><div class="lvl-num">1</div><div class="lvl-title">الأساسيات (Print)</div></a>
-            <a href="level2.html" class="level-btn locked" id="lvl-2"><span class="lvl-lock" id="lock-2">🔒</span><div class="lvl-num">2</div><div class="lvl-title">المتغيرات (Variables)</div></a>
-            <a href="level3.html" class="level-btn locked" id="lvl-3"><span class="lvl-lock" id="lock-3">🔒</span><div class="lvl-num">3</div><div class="lvl-title">القرارات (If / Else)</div></a>
+            <a href="level1.html" class="level-btn" id="lvl-1">
+                <div class="lvl-num">1</div>
+                <div class="lvl-title">الأساسيات (Print)</div>
+            </a>
+
+            <a href="level2.html" class="level-btn locked" id="lvl-2">
+                <span class="lvl-lock" id="lock-2">🔒</span>
+                <div class="lvl-num">2</div>
+                <div class="lvl-title">المتغيرات (Variables)</div>
+            </a>
+
+            <a href="level3.html" class="level-btn locked" id="lvl-3">
+                <span class="lvl-lock" id="lock-3">🔒</span>
+                <div class="lvl-num">3</div>
+                <div class="lvl-title">القرارات (If / Else)</div>
+            </a>
         </div>
 
         <div class="progress-container">
-            <div style="font-weight:bold;font-size:14px" id="user-level-status">المستوى الحالي: 0</div>
-            <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
-            <div style="margin-top:6px;font-size:13px;color:var(--green)" id="progress-text">أكمل المستوى الأول لبدء التقدم!</div>
+            <div style="font-weight: bold; font-size: 14px;" id="user-level-status">المستوى الحالي: 0</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 0%;"></div>
+            </div>
+            <div style="margin-top: 6px; font-size: 13px; color: var(--green);" id="progress-text">أكمل المستوى الأول لبدء التقدم!</div>
         </div>
     </div>
 
@@ -100,7 +256,7 @@
                 return;
             }
 
-            document.getElementById('welcome-msg').innerHTML = `أهلاً بك يا بطل البرمجة <span style="color:#f1c40f;font-weight:bold">${activeUser}</span> في عالم المغامرات البرمجية!`;
+            document.getElementById('welcome-msg').innerHTML = `أهلاً بك يا بطل البرمجة <span style="color: #f1c40f; font-weight: bold;">${activeUser}</span> في عالم المغامرات البرمجية!`;
 
             try {
                 const response = await fetch(`https://VigitoSon.pythonanywhere.com/get_progress?username=${encodeURIComponent(activeUser)}`);
