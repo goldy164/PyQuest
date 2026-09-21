@@ -13,9 +13,7 @@
             --green: #4ecca3;
             --gold: #f1c40f;
         }
-
         * { box-sizing: border-box; }
-
         body {
             background: radial-gradient(circle at top, #202852 0%, var(--bg) 48%);
             color: #ffffff;
@@ -27,13 +25,7 @@
             align-items: center;
             min-height: 100vh;
         }
-
-        .main-container {
-            max-width: 800px;
-            width: 100%;
-            text-align: center;
-        }
-
+        .main-container { max-width: 800px; width: 100%; text-align: center; }
         header {
             background: var(--card);
             padding: 25px;
@@ -43,19 +35,8 @@
             position: relative;
             box-shadow: 0 8px 20px rgba(0,0,0,0.4);
         }
-
-        h1 {
-            color: var(--pink);
-            margin: 0 0 8px 0;
-            font-size: 32px;
-        }
-
-        .subtitle {
-            color: var(--green);
-            font-size: 16px;
-            margin: 0;
-        }
-
+        h1 { color: var(--pink); margin: 0 0 8px 0; font-size: 32px; }
+        .subtitle { color: var(--green); font-size: 16px; margin: 0; }
         .logout-btn {
             position: absolute;
             top: 20px;
@@ -69,11 +50,7 @@
             font-weight: bold;
             transition: 0.2s;
         }
-
-        .logout-btn:hover {
-            background: #ff6b6b;
-        }
-
+        .logout-btn:hover { background: #ff6b6b; }
         .user-panel {
             display: flex;
             justify-content: center;
@@ -82,7 +59,6 @@
             gap: 10px;
             margin-bottom: 20px;
         }
-
         .user-badge {
             background: linear-gradient(90deg, var(--gold), #e67e22);
             color: #241b00;
@@ -94,9 +70,7 @@
             font-weight: bold;
             box-shadow: 0 4px 15px rgba(241,196,15,0.35);
         }
-
-        .medals-link,
-        .lessons-link {
+        .medals-link, .lessons-link {
             display: inline-block;
             text-decoration: none;
             color: #241b00;
@@ -105,15 +79,8 @@
             font-weight: bold;
             transition: 0.2s;
         }
-
-        .medals-link {
-            background: var(--gold);
-        }
-
-        .lessons-link {
-            background: var(--green);
-        }
-
+        .medals-link { background: var(--gold); }
+        .lessons-link { background: var(--green); }
         .stage-banner {
             background: linear-gradient(90deg, var(--pink), #ff6b6b);
             color: white;
@@ -124,14 +91,12 @@
             margin-bottom: 20px;
             box-shadow: 0 4px 15px rgba(233,69,96,0.4);
         }
-
         .level-map {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 15px;
             padding: 10px;
         }
-
         .level-btn {
             background: var(--card);
             padding: 25px 15px;
@@ -148,51 +113,22 @@
             position: relative;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
-
         .level-btn:hover {
             transform: translateY(-5px);
             border-color: var(--green);
             background: #1f2a48;
         }
-
-        .lvl-num {
-            font-size: 36px;
-            font-weight: bold;
-            color: var(--green);
-            margin-bottom: 5px;
-        }
-
-        .lvl-title {
-            font-size: 16px;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .lvl-lock {
-            position: absolute;
-            top: 12px;
-            left: 15px;
-            font-size: 20px;
-        }
-
+        .lvl-num { font-size: 36px; font-weight: bold; color: var(--green); margin-bottom: 5px; }
+        .lvl-title { font-size: 16px; font-weight: bold; text-align: center; }
+        .lvl-lock { position: absolute; top: 12px; left: 15px; font-size: 20px; }
         .level-btn.locked {
             background: #101825;
             border-color: #212e46;
             cursor: not-allowed;
             opacity: 0.6;
         }
-
-        .level-btn.locked .lvl-num,
-        .level-btn.locked .lvl-title {
-            color: #666;
-        }
-
-        .level-btn.locked:hover {
-            transform: none;
-            background: #101825;
-            border-color: #212e46;
-        }
-
+        .level-btn.locked .lvl-num, .level-btn.locked .lvl-title { color: #666; }
+        .level-btn.locked:hover { transform: none; background: #101825; border-color: #212e46; }
         .progress-container {
             margin-top: 25px;
             background: var(--card);
@@ -200,7 +136,6 @@
             border-radius: 12px;
             border: 2px solid var(--blue);
         }
-
         .progress-bar {
             height: 12px;
             background: var(--blue);
@@ -208,12 +143,17 @@
             overflow: hidden;
             margin-top: 8px;
         }
-
         .progress-fill {
             height: 100%;
             background: var(--green);
             width: 0%;
             transition: width 0.5s;
+        }
+        .banner-ad {
+            display: flex;
+            justify-content: center;
+            margin: 25px auto 0;
+            min-height: 250px;
         }
     </style>
 </head>
@@ -233,22 +173,18 @@
             <a class="lessons-link" href="lessons.html">📚 شرح الدروس</a>
         </div>
 
-        <div class="stage-banner">
-            ⭐ المرحلة الأولى: أساسيات البرمجة
-        </div>
+        <div class="stage-banner">⭐ المرحلة الأولى: أساسيات البرمجة</div>
 
         <div class="level-map" id="levels-container">
             <a href="level1.html" class="level-btn" id="lvl-1">
                 <div class="lvl-num">1</div>
                 <div class="lvl-title">الأساسيات (Print)</div>
             </a>
-
             <a href="level2.html" class="level-btn locked" id="lvl-2">
                 <span class="lvl-lock" id="lock-2">🔒</span>
                 <div class="lvl-num">2</div>
                 <div class="lvl-title">المتغيرات (Variables)</div>
             </a>
-
             <a href="level3.html" class="level-btn locked" id="lvl-3">
                 <span class="lvl-lock" id="lock-3">🔒</span>
                 <div class="lvl-num">3</div>
@@ -258,10 +194,21 @@
 
         <div class="progress-container">
             <div style="font-weight: bold; font-size: 14px;" id="user-level-status">المستوى الحالي: 0</div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progress-fill" style="width: 0%;"></div>
-            </div>
+            <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width: 0%;"></div></div>
             <div style="margin-top: 6px; font-size: 13px; color: var(--green);" id="progress-text">أكمل المستوى الأول لبدء التقدم!</div>
+        </div>
+
+        <div class="banner-ad" aria-label="إعلان">
+            <script>
+                atOptions = {
+                    'key' : '5cb3ea6ec7bacae8714ade503b7768a3',
+                    'format' : 'iframe',
+                    'height' : 250,
+                    'width' : 300,
+                    'params' : {}
+                };
+            </script>
+            <script src="https://www.highrevenueformat.com/5cb3ea6ec7bacae8714ade503b7768a3/invoke.js"></script>
         </div>
     </div>
 
@@ -271,7 +218,6 @@
         function updateUserBadge(completedLevels, serverTitle) {
             const badge = document.getElementById('user-badge');
             const title = document.getElementById('user-title');
-
             if (completedLevels >= 3) {
                 title.textContent = serverTitle || 'Beginner';
                 badge.style.display = 'block';
@@ -286,13 +232,10 @@
                 window.location.href = 'index.html';
                 return;
             }
-
             document.getElementById('welcome-msg').innerHTML = `أهلاً بك يا بطل البرمجة <span style="color: #f1c40f; font-weight: bold;">${activeUser}</span> في عالم البرمجة!`;
-
             try {
                 const response = await fetch(`https://VigitoSon.pythonanywhere.com/get_progress?username=${encodeURIComponent(activeUser)}`);
                 const data = await response.json();
-
                 if (data.success) {
                     const completedLevels = Number(data.completed_levels ?? 0);
                     updateMapState(completedLevels);
@@ -332,11 +275,8 @@
             const progressText = document.getElementById('progress-text');
             const levelStatus = document.getElementById('user-level-status');
             const completedLevels = Math.max(0, Math.min(level, TOTAL_LEVELS));
-            const progressPercent = `${(completedLevels / TOTAL_LEVELS) * 100}%`;
-
             levelStatus.textContent = `المستوى الحالي: ${completedLevels}`;
-            progressFill.style.width = progressPercent;
-
+            progressFill.style.width = `${(completedLevels / TOTAL_LEVELS) * 100}%`;
             if (completedLevels === 0) {
                 progressText.textContent = 'أكمل المستوى الأول لفتح المستوى الثاني!';
                 setLocked(lvl2, lock2, '🔒 يجب عليك إتمام المستوى الأول أولاً.');
